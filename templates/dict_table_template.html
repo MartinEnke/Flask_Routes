@@ -1,0 +1,70 @@
+<!DOCTYPE html> <!-- Defines the document type and version of HTML -->
+<html lang="en"> <!-- Begins the HTML document and sets language to English -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"><!-- Ensures the document uses UTF-8 character encoding -->
+    <title>{{ title }}</title> <!-- Dynamically sets the page title using the 'title' variable passed from Flask -->
+
+    <!-- Embedded CSS styling for the table -->
+    <style>
+        table {
+            border-collapse: collapse;      /* Collapses table borders into single lines */
+            width: 60%;                    /* Sets the width of the table */
+            margin: 20px auto;             /* Adds margin above/below and centers the table */
+            background-color: #f8f9fa;      /* Light gray background */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);    /* Soft drop shadow around the table */
+        }
+        th, td {
+            border: 1px solid #ddd;      /* Light border for table cells */
+            padding: 10px 15px;         /* Padding inside each cell */
+            text-align: center;         /* Center-aligns text */
+        }
+        th {
+            background-color: #007BFF;      /* Blue background for header row */
+            color: white;                  /* White text color for headers */
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;     /* Zebra-striping for better readability */
+        }
+        .highlight {
+            font-weight: bold;         /* Emphasizes special note */
+            color: green;             /* Green text for special message */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page heading displayed at the top, center-aligned -->
+    <h1 style="text-align:center;">{{ title }}</h1>
+
+    <!-- Current time passed from Flask, also centered -->
+    <p style="text-align:center;">Current time: {{ time }}</p>
+
+    <!-- Start of the data table -->
+    <table>
+        <tr>
+            <th>Name</th> <!-- Column header: Name -->
+            <th>Age</th> <!-- Column header: Age -->
+            <th>Country</th> <!-- Column header: Country -->
+            <th>Note</th> <!-- Column header: Note for special messages -->
+        </tr>
+
+        <!-- Begin loop over the 'users' dictionary passed from Flask -->
+        {% for user, details in users.items() %}
+            <tr> <!-- One row per user -->
+                <td>{{ user }}</td> <!-- Displays the user's name -->
+                <td>{{ details['age'] }}</td> <!-- Displays the user's age -->
+                <td>{{ details['country'] }}</td> <!-- Displays the user's country -->
+
+                <td>
+                    {% if details["country"] == "USA" %} <!-- Checks if user is from the USA -->
+                        <span class="highlight">Welcome, US user!</span> <!-- Show special note if true -->
+                    {% else %}
+                        - <!-- Otherwise, show a dash -->
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %} <!-- End of loop -->
+    </table>
+</body>
+</html>

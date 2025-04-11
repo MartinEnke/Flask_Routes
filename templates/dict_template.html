@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+    <h1>{{ title }}</h1>
+    <p>It is currently {{ time }} </p>
+    <ul>
+        {% for user, details in users.items() %}
+            <li>
+                {% if details["country"] == "USA" %}
+                    {{ user }} is {{ details['age'] }} years old from {{ details['country'] }}. Special message to USA users: Welcome!
+                {% else %}
+                    {{ user }} is {{ details["age"] }} years old from {{ details["country"] }}.
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
