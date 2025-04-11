@@ -4,17 +4,18 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+
 users = {
     'Alice': {'age': 25, 'country': 'USA'},
     'Bob': {'age': 30, 'country': 'UK'},
     'Charlie': {'age': 35, 'country': 'Australia'}
 }
 
+
 @app.route("/all_users")
 def all_users():
     current_time = datetime.now().strftime("%H:%M:%S  //  %D")
     return render_template("dict_template.html", title="All Users", users=users, time=current_time)
-
 
 
 @app.route("/update_country", methods=["GET", "POST"])
@@ -32,8 +33,12 @@ def update_country():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template("404.html"), 404
+    return render_template("404.html")
 
+
+@app.errorhandler(500)
+def internal_error():
+    return render_template("505.html")
 
 @app.route("/") # The home route (@app.route("/")) handles the incoming GET request and uses the value via request.args.get("name").
 def home():
@@ -68,7 +73,6 @@ def form():
     return render_template("form.html")
 
 
-
 @app.route("/dict_table")
 def dict_table():
     current_time = datetime.now().strftime("%H:%M:%S // %D")
@@ -83,6 +87,7 @@ def username(username):
 @app.route("/post/<int:post_id>")
 def post(post_id):
     return f"Post {post_id}"
+
 
 @app.route('/path/<path:sub_path>')
 def show_sub_path(sub_path):
